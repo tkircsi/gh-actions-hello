@@ -1,0 +1,22 @@
+name: Build and Publish Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Docker Image
+        run: docker build -t my-image-name:$(date +%s)
+
+      - name: Publish To Registry
+        uses: elgohr/Publish-Docker-GitHub-Action@master
+        with:
+          name: tkircsi/gh-actions
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          
